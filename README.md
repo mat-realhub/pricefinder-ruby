@@ -1,8 +1,8 @@
 # APM Pricefinder Ruby Library
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pricefinder`. To experiment with that code, run `bin/console` for an interactive prompt.
+The Pricefinder Ruby library provides convenient access to the APM Pricefinder API from applications written in the Ruby language. It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses which makes it compatible with a wide range of versions of the APM Pricefinder API.
 
-TODO: Delete this and the text above, and describe your gem
+Find out more about Pricefinder at [https://www.pricefinder.com.au](https://www.pricefinder.com.au)
 
 ## Installation
 
@@ -14,7 +14,7 @@ gem 'pricefinder'
 
 And then execute:
 
-    $ bundle
+    $ bundle install
 
 Or install it yourself as:
 

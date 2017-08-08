@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Realhub Systems"]
   spec.email         = ["ken@realhub.com.au"]
 
-  spec.summary       = %q{TODO: Write a short summary, because Rubygems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
+  spec.summary       = 'Ruby bindings for the APM Pricefinder API'
+  spec.description   = 'Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.'
   spec.homepage      = "TODO: Put your gem's website or public repo URL here."
   spec.license       = "MIT"
 
