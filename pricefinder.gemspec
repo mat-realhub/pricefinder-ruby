@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
 
   spec.summary       = 'Thin ruby bindings for the APM Pricefinder API'
   spec.description   = 'Pricefinder API provides access to property, sale and listing searches as well as suburb statistics and SSO to the Pricefinder website capabilities.'
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.homepage      = "https://github.com/realhub/pricefinder-ruby"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
