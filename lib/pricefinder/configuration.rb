@@ -4,7 +4,7 @@ module Pricefinder
     TOKEN_PARAMS = [:access_token]
     AUTH_PARAMS = [:client_id, :client_secret]
 
-    CONFIG_PARAMS = TOKEN_PARAMS.concat AUTH_PARAMS
+    CONFIG_PARAMS = TOKEN_PARAMS + AUTH_PARAMS
 
     attr_accessor *CONFIG_PARAMS
 
@@ -30,8 +30,8 @@ module Pricefinder
 
     # Check that we have all the required params
     def valid?
-      TOKEN_PARAMS.none?{ |key| send(key).nil? || send(key).empty? } ||
-      AUTH_PARAMS.none?{ |key| send(key).nil? || send(key).empty? }
+      TOKEN_PARAMS.none? { |key| send(key).nil? || send(key).empty? } ||
+      AUTH_PARAMS.none? { |key| send(key).nil? || send(key).empty? }
     end
   end
 end

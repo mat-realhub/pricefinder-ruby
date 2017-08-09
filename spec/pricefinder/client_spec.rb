@@ -11,7 +11,7 @@ describe Pricefinder::Client do
   describe '#initialize' do
     subject { client }
 
-    context 'with valid configuration' do
+    context 'with client credentials' do
 
       it 'should be the correct class' do
         expect(client.configuration).to be_a Pricefinder::Configuration
@@ -23,6 +23,14 @@ describe Pricefinder::Client do
 
       it 'should have an access_token' do
         expect(client.access_token).to be_a String
+      end
+    end
+
+    context 'with access_token' do
+      let(:client) { Pricefinder::Client.new({ access_token: 'token' }) }
+
+      it 'should be the correct class' do
+        expect(client.configuration).to be_a Pricefinder::Configuration
       end
     end
   end

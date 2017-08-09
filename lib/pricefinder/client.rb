@@ -14,6 +14,7 @@ module Pricefinder
 
     def initialize(options = nil)
       @config = nil
+      @retry_count = 0
 
       unless options.nil?
         @configuration = Configuration.new(options)
@@ -40,6 +41,7 @@ module Pricefinder
 
       @connection = Faraday.new(API_HOST) do |faraday|
         faraday.request  :url_encoded
+        faraday.headers[:user_agent] = USER_AGENT
         faraday.response :json
         faraday.adapter Faraday.default_adapter
       end
@@ -49,15 +51,53 @@ module Pricefinder
       @configuration.access_token
     end
 
+    def get(path, params = {}, options = {})
+      response = @connection.get do |request|
+        request.headers['Authorization'] = "Bearer #{access_token}"
+        request.url path
+        request.params = params
+      end
+
+      handle_response(response)
+    end
+
+    def handle_response(response)
+      return response.body if response.body
+      return { errors: build_errors(response) }
+    end
+
+    def build_errors(response)
+      errors = []
+      errors << "Unauthorized Token: #{access_token}" if response.status == 401
+      errors << "Could not handle response" if response.status == 500
+
+      return errors
+    end
+
+    def handle_unauthorized
+      if @retry_count == 0
+        # Get a new access token
+        get_access_token(true)
+        
+        # Retry
+        @retry_count += 1
+      end
+    end
+
     private
 
-    def get_access_token
+    def get_access_token(force_auth = false)
       config_params = @configuration.config_params
       
       # If we were passed an access token use it
-      if token = config_params[:access_token]
+      if !force_auth && token = config_params[:access_token]
         @configuration.access_token = token
         return
+      end
+
+      # We need to generate a new token but we are missing the required params
+      if force_auth && (config_params[:client_id].nil? || config_params[:client_id].nil?)
+        raise Error::MissingClientRequiredConfig
       end
 
       # Otherwise get a new token using credentials
