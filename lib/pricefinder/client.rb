@@ -1,48 +1,82 @@
+require 'faraday'
+require 'faraday_middleware'
+
+require 'pricefinder/configuration'
+require 'pricefinder/error'
+
 module Pricefinder
   class Client
-    
+
+    API_HOST = 'https://api.pricefinder.com.au/v1'
+    USER_AGENT = "Pricefinder Ruby Wrapper #{Pricefinder::VERSION}"
+
     attr_reader :configuration
 
-    # Creates an instance of the Pricefinder Client
-    # @params options [Hash, nil] a hash of the client_id, client_secret
-    # @return [Client] a new client initialized using the params provided
-    #
-    # @example Basic Usage
-    # Pricefinder::Client.new({ 
-    #   client_id: 'username',
-    #   client_secret: 'password'
-    # })
-    #
     def initialize(options = nil)
       @config = nil
 
       unless options.nil?
         @configuration = Configuration.new(options)
-        check_required_params
+        check_valid_config
       end
+
+      # Create Connection
+      connection
+
+      # Get Access Token
+      get_access_token
     end
 
-    # Check that all required params were supplied
-    def check_required_params
+    def check_valid_config
       if configuration.nil? || !configuration.valid?
         @configuration = nil
-        raise Error::MissingClientRequiredParams
-      else
-        # Freeze the configuration so it cannot be modified once the 
-        # gem is configured.
-        @configuration.freeze
+        raise Error::MissingClientRequiredConfig
       end
     end
 
-    # API connection
     def connection
       return @connection if instance_variable_defined?(:@connection)
+      check_valid_config
 
-      check_required_params
-      @connection = Faraday.new(@api_base) do |faraday|
-        # Use the Faraday OAuth middleware for OAuth requests
-        faraday.request :oauth, @configuration.config_params
+      @connection = Faraday.new(API_HOST) do |faraday|
+        faraday.request  :url_encoded
+        faraday.response :json
         faraday.adapter Faraday.default_adapter
+      end
+    end
+
+    def access_token
+      @configuration.access_token
+    end
+
+    private
+
+    def get_access_token
+      config_params = @configuration.config_params
+      
+      # If we were passed an access token use it
+      if token = config_params[:access_token]
+        @configuration.access_token = token
+        return
+      end
+
+      # Otherwise get a new token using credentials
+      if (client_id = config_params[:client_id]) && (client_secret = config_params[:client_secret])
+        authenticate_client_credentials(client_id, client_secret)
+      end
+    end
+    
+    def authenticate_client_credentials(client_id, client_secret)
+      response = @connection.post('oauth/token', {
+        :grant_type => 'client_credentials',
+        :client_id => client_id,
+        :client_secret => client_secret
+      })
+
+      if response.status == 200 && token = response.body["tokenKey"]
+        @configuration.access_token = token
+      else
+        raise Error::InvalidCredentials
       end
     end
 
