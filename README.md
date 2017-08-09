@@ -1,8 +1,10 @@
 # APM Pricefinder Ruby Library
 
-The Pricefinder Ruby library provides convenient access to the APM Pricefinder API from applications written in the Ruby language. It includes a pre-defined set of classes for API resources that initialize themselves dynamically from API responses which makes it compatible with a wide range of versions of the APM Pricefinder API.
+This library providers a thin layer for the APM Pricefinder API from applications written in the Ruby language.
 
 Find out more about Pricefinder at [https://www.pricefinder.com.au](https://www.pricefinder.com.au)
+
+API Documentation is available here [https://api.pricefinder.com.au/v1/swagger](https://api.pricefinder.com.au/v1/swagger)
 
 ## Installation
 
