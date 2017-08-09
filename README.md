@@ -2,9 +2,9 @@
 
 This library providers a thin layer for the APM Pricefinder API from applications written in the Ruby language.
 
-Find out more about Pricefinder at [https://www.pricefinder.com.au](https://www.pricefinder.com.au)
+Find out more about Pricefinder at <a href="https://www.pricefinder.com.au" target="_blank">https://www.pricefinder.com.au</a>
 
-API Documentation is available here [https://api.pricefinder.com.au/v1/swagger](https://api.pricefinder.com.au/v1/swagger)
+API Documentation is available here <a href="https://api.pricefinder.com.au/v1/swagger" target="_blank">https://api.pricefinder.com.au/v1/swagger</a>
 
 ## Installation
 
@@ -50,10 +50,10 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/realhub/pricefinder-ruby
+Bug reports and pull requests are welcome on GitHub at <a href=" https://github.com/realhub/pricefinder-ruby" target="_blank"> https://github.com/realhub/pricefinder-ruby</a>
 
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the <a href=" http://opensource.org/licenses/MIT" target="_blank"> MIT License</a>.
 
